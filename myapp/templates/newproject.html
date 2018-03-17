@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block container_width %}100%{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="projectDetails-tab" data-toggle="tab" href="#projectDetails" role="tab" aria-controls="home" aria-selected="true">Project Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="profile" aria-selected="false">Tasks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="materials-tab" data-toggle="tab" href="#materials" role="tab" aria-controls="contact" aria-selected="false">Materials</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="contact" aria-selected="false">Issues</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="projectDetails" role="tabpanel" aria-labelledby="details-Tab">
+                <form>
+                    <div class="form-group">
+                        <label for="prjName">Project Name</label>
+                        <input type="text" class="form-control" id="prjName">
+                    </div>
+                    <div class="form-group">
+                        <label for="prjManager">Manager Name</label>
+                        <select type="text" class="form-control" id="prjManager">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prjType">Project Type</label>
+                        <input type="text" class="form-control" id="prjType">
+                    </div>
+                    <div class="form-group">
+                        <label for="prjBudget">Budget </label>
+                        <input type="number" class="form-control" id="prjBudget">
+                    </div>
+                    <div class="form-group">
+                        <label for="prjHours">Planned Hours</label>
+                        <input type="number" class="form-control" id="prjHours">
+                    </div>
+                    <div class="form-group">
+                        <label for="prjDeadline">Deadline</label>
+                        <input type="number" class="form-control" id="prjDeadline">
+                    </div>
+                    <div class="form-group">
+                        <label for="prjDescription">Description</label>
+                        <textarea type="number" class="form-control" rows="5" id="prjDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+        
+            <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-Tab">OOh</div>
+            <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">Yeah</div>
+            <div class="tab-pane fade" id="issues" role="tabpanel" aria-labelledby="issues-tab">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#issueModal" id="issNewButton">Report New issue</button>
+                <div class="modal fade" id="issueModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Enter details of new issue</h1>
+                            </div>
+                            <div class="modal-body">
+                                <form action="">
+                                <div class="form-group">
+                                    <label for="issName">Issue title</label>
+                                    <input type="text" class="form-control" id="issName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="issDesc">Issue Description</label>
+                                    <input type="text" class="form-control" id="issDesc">
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+{% endblock %}

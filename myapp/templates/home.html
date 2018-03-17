@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row text-center">
+      <div class="col-sm-6">
+        <div class="card">
+            <a style="color:black;" href="{{ url_for("project_details") }}"><i class="fas fa-briefcase fa-5x"></i></a>
+          <div class="card-body">
+              <a href="{{ url_for("project_details") }}" class="btn btn-primary">Projects</a>
+              <p class="card-text" style="color:#03b0a7;">Create, update and make requisitions for projects</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+          <div class="card">
+              <a href="#">
+                <img src="{{ url_for("static", filename="images/finance_icon.png") }}" width="80" height="80">
+              </a>
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">Finance</a>
+              <p class="card-text" style="color:#03b0a7;">Budgets, Forecasts, and cashflows </p>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="row text-center">
+      <div class="col-sm-6">
+        <div class="card">
+            <a href="#">
+              <img src="{{ url_for("static", filename="images/warehouse_icon.png") }}" width="80" height="80">
+            </a>
+          <div class="card-body">
+              <a href="#" class="btn btn-primary">Warehouse</a>
+            <p class="card-text" style="color:#03b0a7;">Add/Remove new stock items, check stock levels, Approve Project Requisitions</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+          <div class="card">
+              <a href="#">
+                <img src="{{ url_for("static", filename="images/people_icon.png") }}" width="80" height="80">
+              </a>
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">HRM</a>
+              <p class="card-text" style="color:#03b0a7;">
+                Employee, Absence and salary management. Manage your People for sucess
+              </p>
+            </div>
+          </div>
+        </div>
+  </div>
+  {% endblock %}
