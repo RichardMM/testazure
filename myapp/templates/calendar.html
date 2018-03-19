@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="calendar">
+
+</div>
+{% endblock %}
+{% block morescripts %}
+<script >
+  $(function() {
+
+    $('#calendar').fullCalendar({
+      themeSystem: 'standard',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listMonth'
+      },
+      weekNumbers: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: 'https://fullcalendar.io/demo-events.json'
+    });
+
+  });
+</script>
+{% endblock %}

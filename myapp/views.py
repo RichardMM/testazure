@@ -8,3 +8,11 @@ def home():
 @app.route("/newproject", methods=["GET", 'POST'])
 def project_details():
     return render_template('newproject.html')
+
+@app.route("/projects", methods=["GET", 'POST'])
+def projects():
+    return render_template('projects.html')
+
+@app.route("/pipeline", methods=["GET", 'POST'])
+def calendar():
+    return render_template('calendar.html')
