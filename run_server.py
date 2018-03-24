@@ -25,6 +25,14 @@ except (ModuleNotFoundError, ImportError, ImportWarning) as ex:
     def errohandler():
         var = traceback.format_exc()
         return var
-    app.run()
+    if __name__ == '__main__':
+        # db.create_all()
+        HOST = environ.get('SERVER_HOST', 'localhost')
+        try:
+            PORT = int(environ.get('SERVER_PORT', 'localhost'))
+        except ValueError:
+            PORT = 8080
+        app.jinja_env.auto_reload = True
+        app.run(HOST, PORT)
 
     
