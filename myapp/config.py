@@ -1,6 +1,6 @@
 TEMPLATES_AUTO_RELOAD = True
 SECRET_KEY = '£$%^HJGE97655@~?><XGHWEDI7974'
-DEBUG = True
+DEBUG = False
 
 ##mails
 MAIL_SERVER = 'smtp.gmail.com'

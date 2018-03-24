@@ -5,7 +5,6 @@ from flask import Blueprint
 from myapp import mail
 from flask_mail import Message
 
-
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
 @projects_mod.route("/", methods=["GET", 'POST'])
@@ -30,3 +29,7 @@ def mailer():
    msg.body = "This is the email body"
    mail.send(msg)
    return "Sent"
+
+@projects_mod.route('/error', methods=["GET"])
+def errorizer():
+    return 1/0
