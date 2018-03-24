@@ -1,0 +1,11 @@
+TEMPLATES_AUTO_RELOAD = True
+SECRET_KEY = '£$%^HJGE97655@~?><XGHWEDI7974'
+DEBUG = True
+
+##mails
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+MAIL_USE_SSL = True
+MAIL_USERNAME = 'rmachaz@gmail.com'
+MAIL_DEFAULT_SENDER = 'rmachaz@gmail.com'
+MAIL_PASSWORD = '684192684192'

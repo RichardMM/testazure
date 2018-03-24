@@ -1,7 +1,9 @@
 from flask import Flask
+from flask_mail import Mail
 
 app = Flask(__name__)
-app.secret_key = 'jygdtude6577?>:@897dejk*&qef^&%'
+app.config.from_pyfile(filename='config.py')
+mail = Mail(app=app)
 
 from myapp.projects.views import projects_mod
 from myapp.calendar_api.views import calendar_mod

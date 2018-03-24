@@ -11,7 +11,6 @@ if __name__ == '__main__':
     except ValueError:
         PORT = 8080
     app.jinja_env.auto_reload = True
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run(HOST, PORT, debug=True)
+    app.run(HOST, PORT)
 
     

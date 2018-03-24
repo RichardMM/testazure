@@ -1,0 +1,8 @@
+{% macro listfiles(filelist) %}
+    {% for name in filelist %}
+        <li class="list-group-item">
+            {{ name }}
+            <a role="button" class="btn btn-outline-info btn-sm float-right" id="viewFileBtn">View</a>
+        </li>
+    {% endfor %}
+{% endmacro %}

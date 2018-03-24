@@ -2,6 +2,9 @@
 from flask import render_template
 
 from flask import Blueprint
+from myapp import mail
+from flask_mail import Message
+
 
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
@@ -20,3 +23,10 @@ def projects():
 @projects_mod.route("/pipeline", methods=["GET", 'POST'])
 def calendar():
     return render_template('projects/calendar.html')
+
+@projects_mod.route("/mail")
+def mailer():
+   msg = Message('Hello', recipients = ['richard.macharia@strathmore.edu'])
+   msg.body = "This is the email body"
+   mail.send(msg)
+   return "Sent"

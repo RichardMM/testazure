@@ -1,19 +1,23 @@
 {% extends "projects/base.html" %}
+
 {% block content %}
 <div class="card">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="projectDetails-tab" data-toggle="tab" href="#projectDetails" role="tab" aria-controls="home" aria-selected="true">Project Details</a>
+              <a class="nav-link active" id="projectDetails-tab" data-toggle="tab" href="#projectDetails" role="tab" aria-controls="details" aria-selected="true">Project Details</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+                </li>
             <li class="nav-item">
               <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="profile" aria-selected="false">Tasks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="materials-tab" data-toggle="tab" href="#materials" role="tab" aria-controls="contact" aria-selected="false">Materials</a>
+              <a class="nav-link" id="materials-tab" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="contact" aria-selected="false">Issues</a>
+                <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="issues" aria-selected="false">Issues</a>
             </li>
         </ul>
     </div>
@@ -84,6 +88,41 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-Tab">
+                <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#filesModal" id="fileNewButton">Upload new file</button>
+                <div class="modal fade" id="filesModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Upload File</h3>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="">
+                                    <div class="form-group">
+                                        <label for="fileName">Give short but descriptive name for file</label>
+                                        <input type="text" class="form-control" id="fileName" rows="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileLoc">Select file location</label>
+                                        <input id="fileLoc" class="form-control-file" type="file"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-success float-right" data-dismiss="modal" value="Save"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Cras justo odio
+                        <a role="button" class="btn btn-outline-info btn-sm float-right" id="viewFileBtn">View</a>
+                    </li>
+                    {{ listfiles(["name1", "name2", "name3"]) }}
+                </ul>
             </div>
         </div>
     </div>  
