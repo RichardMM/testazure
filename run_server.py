@@ -16,7 +16,15 @@ try:
         app.jinja_env.auto_reload = True
         app.run(HOST, PORT)
 except (ModuleNotFoundError, ImportError, ImportWarning) as ex:
-    logging.basicConfig(filename="myapp.log", level=logging.WARNING)
-    logging.exception(ex)
+    # logging.basicConfig(filename="myapp.log", level=logging.WARNING)
+    # logging.exception(ex)
+    # log import error in new app
+    from flask import Flask
+    app = Flask(__name__)
+    @app.route('/', methods=['GET'])
+    def errohandler():
+        var = traceback.format_exc()
+        return var
+    app.run()
 
     
