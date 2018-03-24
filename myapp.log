@@ -1,0 +1,11 @@
+
+
+ERROR:root:No module named 'la'
+Traceback (most recent call last):
+  File "c:/Users/rmacharia/Documents/mybusiness/avertis work papers/Geonet-ERP-master/projects module/run_server.py", line 11, in <module>
+    from myapp import app
+  File "c:\Users\rmacharia\Documents\mybusiness\avertis work papers\Geonet-ERP-master\projects module\myapp\__init__.py", line 19, in <module>
+    from myapp.projects.views import projects_mod
+  File "c:\Users\rmacharia\Documents\mybusiness\avertis work papers\Geonet-ERP-master\projects module\myapp\projects\views.py", line 6, in <module>
+    import la
+ModuleNotFoundError: No module named 'la'

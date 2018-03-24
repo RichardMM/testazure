@@ -1,11 +1,16 @@
+
+
+
 from flask import Flask
 from flask_mail import Mail
 from logging import FileHandler, WARNING
 
-app = Flask(__name__)
-# set logging details
 handler = FileHandler("error.txt")
 handler.setLevel(level=WARNING)
+app = Flask(__name__)
+
+#set logging details
+
 app.logger.addHandler(handler)
 
 app.config.from_pyfile(filename='config.py')
