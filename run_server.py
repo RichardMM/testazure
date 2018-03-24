@@ -3,7 +3,6 @@ Module to start and run the app
 '''
 import logging
 import traceback
-
 try:
     from os import environ
     from myapp import app

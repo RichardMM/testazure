@@ -3,7 +3,6 @@ from flask import render_template
 from flask import Blueprint
 from myapp import mail
 from flask_mail import Message
-import la
 
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
