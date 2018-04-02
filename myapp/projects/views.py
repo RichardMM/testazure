@@ -28,6 +28,7 @@ def mailer():
    mail.send(msg)
    return "Sent"
 
-@projects_mod.route('/error', methods=["GET"])
-def errorizer():
-    return 1/0
+@projects_mod.route('/disbursements', methods=["GET"])
+def disbursments():
+
+    return render_template("projects/disbursements.html")

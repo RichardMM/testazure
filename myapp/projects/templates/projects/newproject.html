@@ -19,6 +19,9 @@
             <li class="nav-item">
                 <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="issues" aria-selected="false">Issues</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Disbursements-tab" data-toggle="tab" href="#disbursements" role="tab" aria-controls="issues" aria-selected="false">Disbursements</a>
+            </li>
         </ul>
     </div>
     <div class="card-body">
@@ -80,6 +83,10 @@
                                         <label for="issDesc">Issue Description</label>
                                         <textarea class="form-control" id="issDesc" rows="5"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="issResp">Response</label>
+                                        <textarea class="form-control" id="issResp" rows="5" readonly></textarea>
+                                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -88,6 +95,21 @@
                         </div>
                     </div>
                 </div>
+                <table class="table mt-2">
+                    <th>S/N</th>
+                    <th>Issue Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr></tr>
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-Tab">
                 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#filesModal" id="fileNewButton">Upload new file</button>
@@ -123,6 +145,53 @@
                     </li>
                     {{ listfiles(["name1", "name2", "name3"]) }}
                 </ul>
+            </div>
+            <div class="tab-pane fade" id="disbursements" role="tabpanel" aria-labelledby="disbursements-tab">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#disbursementsModal" id="issNewButton">Request funds</button>
+                <div class="modal fade" id="disbursementsModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Enter details of new disbursement</h3>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="">
+                                    <div class="form-group">
+                                        <label for="issDesc">Disbursement Description</label>
+                                        <textarea class="form-control" id="disDesc" rows="5"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="issName">Disbursement Amount</label>
+                                        <input type="number" class="form-control" id="disName">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-success float-right" data-dismiss="modal" value="Request"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table mt-2">
+                    <th>S/N</th>
+                    <th>Request Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Approved Amount</th>
+                    <th>Approver</th>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>  
