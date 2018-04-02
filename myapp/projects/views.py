@@ -1,7 +1,7 @@
 
 from flask import render_template
 from flask import Blueprint
-from myapp import mail
+from myapp import mail,models
 from flask_mail import Message
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
@@ -11,6 +11,7 @@ def home():
 
 @projects_mod.route("/newproject", methods=["GET", 'POST'])
 def project_details():
+    models.Projects.query.all()
     return render_template('projects/newproject.html')
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
