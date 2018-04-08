@@ -27,36 +27,51 @@
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="projectDetails" role="tabpanel" aria-labelledby="details-Tab">
-                <form>
+                <form action="/newproject" role="form" method="post">
                     <div class="form-group">
                         <label for="prjName">Project Name</label>
-                        <input type="text" class="form-control" id="prjName">
+                        <input type="text" name="proj_name" class="form-control" id="prjName">
                     </div>
                     <div class="form-group">
                         <label for="prjManager">Manager Name</label>
-                        <select type="text" class="form-control" id="prjManager">
-                            <option></option>
+                        <select type="text" name="proj_manager" class="form-control" id="prjManager">
+                            {% for row in managers %} 
+                                <option value="{{ row.manager_code }}">{{ row.manager_name }}</option>">
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="prjType">Project Type</label>
-                        <input type="text" class="form-control" id="prjType">
+                        <select type="text" name="" class="form-control" id="prjType">
+                            {% for row in projects %} 
+                                <option value="{{ row.type_id }}">{{ row.type_name }}</option>">
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="prjBudget">Budget </label>
-                        <input type="number" class="form-control" id="prjBudget">
+                        <label class=" for="prjBudget">Budget</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="custom-select" name="proj_currency" id="selCurrency">
+                                    {% for row in curr %} 
+                                        <option value="{{ row.curr_id }}">{{ row.curr_name }}</option>">
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="number" name="proj_budget" class="form-control" id="prjBudget">
+                          </div>
                     </div>
                     <div class="form-group">
                         <label for="prjHours">Planned Hours</label>
-                        <input type="number" class="form-control" id="prjHours">
+                        <input type="number" name="proj_hours" class="form-control" id="prjHours">
                     </div>
                     <div class="form-group">
                         <label for="prjDeadline">Deadline</label>
-                        <input type="number" class="form-control" id="prjDeadline">
+                        <input type="date" name="proj_deadline" class="form-control" id="prjDeadline">
                     </div>
                     <div class="form-group">
                         <label for="prjDescription">Description</label>
-                        <textarea type="number" class="form-control" rows="5" id="prjDescription"></textarea>
+                        <textarea type="number" name="proj_description" class="form-control" rows="5" id="prjDescription"></textarea>
                     </div>
                     <input type="submit" class="btn btn-success float-right" value="Save"/>
                 </form>

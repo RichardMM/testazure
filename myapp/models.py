@@ -22,7 +22,7 @@ class Currency(db.Model):
     curr_id = db.Column(db.Integer, primary_key=True)
 
 class ProjectTypes(db.Model):
-    type_name = db.Column(db.NVARCHAR(5), nullable=False)
+    type_name = db.Column(db.VARCHAR(30), nullable=False)
     type_id = db.Column(db.Integer, primary_key=True)
 
 class ProjectManagers(db.Model):
