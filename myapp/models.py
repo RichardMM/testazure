@@ -9,7 +9,7 @@ class Projects(db.Model):
     proj_id = db.Column(db.Integer(), primary_key=True, autoincrement=True, nullable=False)
     proj_manager = db.Column(db.NVARCHAR(15), nullable=False)
     proj_budget = db.Column(db.Numeric, nullable=False)
-    proj_name = db.Column(db.NVARCHAR(10), nullable=False)
+    proj_name = db.Column(db.NVARCHAR(40), nullable=False)
     proj_approval = db.Column(db.Boolean, nullable=False)
     proj_deadline = db.Column(db.DateTime)
     proj_hours = db.Column(db.Numeric)

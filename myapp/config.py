@@ -18,3 +18,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 #     'users':        'mysqldb://localhost/users',
 #     'appmeta':      'sqlite:////path/to/appmeta.db'
 # }
+
+##files storage
+UPLOADED_FILES_DEST = "projectfilesupload/"

@@ -5,6 +5,7 @@ from myapp import mail,models, db
 from flask_mail import Message
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
+
 @projects_mod.route("/", methods=["GET", 'POST'])
 def home():
     return render_template('projects/home.html')
@@ -17,13 +18,8 @@ def project_details():
         managers = models.ProjectManagers.query.all()
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers)
-    elif request.method=='POST':
-        proj_data = request.form.to_dict()
-        proj_data["proj_approval"] = 0
-        new_details = models.Projects(**proj_data)
-        db.session.add(new_details)
-        db.session.commit()
-    return 'ok'
+    else:
+        return "Method not supported"
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
