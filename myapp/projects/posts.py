@@ -4,7 +4,7 @@ from myapp import models, db, files
 
 
 @projects_mod.route('/postprojdetails', methods=['POST'])
-def projdetails():
+def upload_projdetails():
     if request.method=='POST':
         proj_data = request.form.to_dict()
         proj_data["proj_approval"] = 0
