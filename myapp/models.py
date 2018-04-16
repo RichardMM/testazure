@@ -7,7 +7,7 @@ class Users(db.Model):
 
 class Projects(db.Model):
     proj_id = db.Column(db.Integer(), primary_key=True, autoincrement=True, nullable=False)
-    proj_manager = db.Column(db.NVARCHAR(15), nullable=False)
+    proj_manager = db.Column(db.NVARCHAR(20), nullable=False)
     proj_budget = db.Column(db.Numeric, nullable=False)
     proj_name = db.Column(db.NVARCHAR(40), nullable=False)
     proj_approval = db.Column(db.Boolean, nullable=False)
