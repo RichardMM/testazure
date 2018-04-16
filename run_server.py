@@ -6,6 +6,7 @@ import traceback
 try:
     from os import environ
     from myapp import app, manager
+    app=manager
     if __name__ == '__main__':
         # db.create_all()
         
@@ -15,8 +16,7 @@ try:
         except ValueError:
             PORT = 8080
         app.jinja_env.auto_reload = True
-        #app.run(HOST, PORT)
-        manager.run()
+        app.run(HOST, PORT)
 except (ModuleNotFoundError, ImportError, ImportWarning) as ex:
     # logging.basicConfig(filename="myapp.log", level=logging.WARNING)
     # logging.exception(ex)

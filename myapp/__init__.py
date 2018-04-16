@@ -21,14 +21,15 @@ app.logger.addHandler(handler)
 app.config.from_pyfile(filename='config.py')
 
 mail = Mail(app=app)
-db = SQLAlchemy(app=app)
-migrater = Migrate(app=app, db=db)
-manager = Manager(app=app)
-manager.add_command('db', MigrateCommand)
+
 
 extensions = extensions=('txt', 'rtf', 'odf', 'ods', 'gnumeric', 'abw', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpe', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'csv', 'ini', 'json', 'plist', 'xml', 'yaml', 'yml')
 files = UploadSet(name="files", extensions=extensions, default_dest=lambda app: app.instance_path)
 configure_uploads(app, files)
+db = SQLAlchemy(app=app)
+migrater = Migrate(app=app, db=db)
+manager = Manager(app=app)
+manager.add_command('db', MigrateCommand)
 
 from myapp.projects.views import projects_mod
 from myapp.calendar_api.views import calendar_mod
