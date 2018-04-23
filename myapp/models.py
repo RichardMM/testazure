@@ -1,3 +1,4 @@
+import datetime
 from myapp import db
 
 class Users(db.Model):
@@ -28,5 +29,20 @@ class ProjectTypes(db.Model):
 class ProjectManagers(db.Model):
     manager_name = db.Column(db.VARCHAR(30), nullable=False)
     manager_code = db.Column(db.NVARCHAR(15), nullable=False, primary_key=True)
+
+class ProjectIssues(db.Model):
+    issue_proj =  db.Column(db.Integer)
+    issue_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    issue_title = db.Column(db.VARCHAR(40), nullable=False)
+    issue_descr =  db.Column(db.VARCHAR(10000), nullable=True)
+    issue_date = db.Column(db.Date, nullable=False, default=datetime.datetime.utcnow)
+
+class IssueResponse(db.Model):
+    issue_id = db.Column(db.Integer, nullable=False)
+    response_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    issue_responder = db.Column(db.NVARCHAR(15), nullable=False)
+    issue_response =  db.Column(db.VARCHAR(10000), nullable=True)
+    response_date = db.Column(db.Date, default=datetime.datetime.utcnow, nullable=False)
+
 
 
