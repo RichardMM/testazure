@@ -10,16 +10,17 @@ projects_mod = Blueprint('projects', import_name=__name__, template_folder='temp
 def home():
     return render_template('projects/home.html')
 
-@projects_mod.route("/newproject", methods=["GET", 'POST'])
-def project_details():
-    if request.method == 'GET':
+@projects_mod.route("/newproject/<int:id>", methods=["GET"])
+@projects_mod.route("/newproject", methods=["GET"])
+def project_details(id=None):
+    if id is None:
         currencies = models.Currency.query.all()
         proj_types = models.ProjectTypes.query.all()
         managers = models.ProjectManagers.query.all()
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers)
     else:
-        return "Method not supported"
+        return id
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])

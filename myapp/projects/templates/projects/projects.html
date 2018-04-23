@@ -12,6 +12,8 @@
     <th>Hours</th>
     <th>Tasks</th>
     <th>Approval</th>
+    <th>Action</th>
+
     <tbody>
         {% for row in projects %}
         <tr>
@@ -27,6 +29,7 @@
             {% else %}
                 <td><span class="badge badge-secondary">Pending</span></td>
             {% endif %}
+            <td><a href="{{ url_for("projects.project_details",  id=row.proj_id) }}"><i class="fas fa-edit"></i></a></td>
         </tr>
         {% endfor %}
         <tr></tr>
