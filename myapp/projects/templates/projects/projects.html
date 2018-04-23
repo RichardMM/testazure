@@ -13,14 +13,22 @@
     <th>Tasks</th>
     <th>Approval</th>
     <tbody>
+        {% for row in projects %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ row.proj_id }}</td>
+            <td>{{ row.proj_name }}</td>
+            <td>{{ row.proj_budget }}</td>
+            <td>{{ row.proj_hours }}</td>
+            <td>NA</td>
+            {% if row.proj_approval=="True" %}
+                <td><span class="badge badge-success">Approved</span></td>
+            {% elif row.proj_approval=="False" %}
+                <td><span class="badge badge-danger">Denied</span></td>
+            {% else %}
+                <td><span class="badge badge-secondary">Pending</span></td>
+            {% endif %}
         </tr>
+        {% endfor %}
         <tr></tr>
     </tbody>
 </table>

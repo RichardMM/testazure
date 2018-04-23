@@ -1,5 +1,5 @@
 
-from flask import render_template, request
+from flask import render_template, request,session
 from flask import Blueprint
 from myapp import mail,models, db
 from flask_mail import Message
@@ -24,7 +24,8 @@ def project_details():
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
 def projects():
-    return render_template('projects/projects.html')
+    projects = models.Projects.query.all()
+    return render_template('projects/projects.html', projects=projects)
 
 @projects_mod.route("/pipeline", methods=["GET", 'POST'])
 def calendar():
@@ -37,7 +38,8 @@ def mailer():
    mail.send(msg)
    return "Sent"
 
-@projects_mod.route('/disbursements', methods=["GET"])
-def disbursments():
-
-    return render_template("projects/disbursements.html")
+@projects_mod.route("/management")
+def approve():
+    session["project_name"] = "Machakos Drill"
+    session["project_id"] = 2
+    return "Sent"
