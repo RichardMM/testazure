@@ -35,6 +35,7 @@ from myapp.projects.views import projects_mod
 from myapp.calendar_api.views import calendar_mod
 from myapp import models
 from myapp.projects import posts
+#db.drop_all()
 db.create_all()
 
 app.register_blueprint(projects_mod)

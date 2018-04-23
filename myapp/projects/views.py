@@ -13,14 +13,16 @@ def home():
 @projects_mod.route("/newproject/<int:id>", methods=["GET"])
 @projects_mod.route("/newproject", methods=["GET"])
 def project_details(id=None):
+    currencies = models.Currency.query.all()
+    proj_types = models.ProjectTypes.query.all()
+    managers = models.ProjectManagers.query.all()
     if id is None:
-        currencies = models.Currency.query.all()
-        proj_types = models.ProjectTypes.query.all()
-        managers = models.ProjectManagers.query.all()
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers)
     else:
-        return id
+        project = models.Projects.query.filter_by(proj_id=id).first()
+        return render_template('projects/newproject.html', curr=currencies, 
+                                projects=proj_types, managers=managers, project_detail=project)
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
