@@ -12,7 +12,7 @@ class Projects(db.Model):
     proj_manager = db.Column(db.NVARCHAR(20), db.ForeignKey("project_managers.manager_code"), nullable=False)
     proj_budget = db.Column(db.Numeric, nullable=False)
     proj_name = db.Column(db.NVARCHAR(40), nullable=False)
-    proj_approval = db.Column(db.Boolean, nullable=False)
+    proj_approval = db.Column(db.Boolean)
     proj_deadline = db.Column(db.DateTime)
     proj_hours = db.Column(db.Numeric)
     proj_client = db.Column(db.NVARCHAR(20), db.ForeignKey("clients.client_id"))

@@ -1,5 +1,5 @@
 from .views import projects_mod
-from flask import request,session, redirect, url_for
+from flask import request,session, redirect, url_for, jsonify
 from myapp import models, db, files
 
 
@@ -7,7 +7,6 @@ from myapp import models, db, files
 def upload_projdetails():
     if request.method=='POST':
         proj_data = request.form.to_dict()
-        proj_data["proj_approval"] = 0
         new_details = models.Projects(**proj_data)
         db.session.add(new_details)
         db.session.commit()
@@ -34,9 +33,9 @@ def upload_issues():
         db.session.commit()
     return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
-@projects_mod.route('/approveproj/<int: id>', methods=['POST'])
+@projects_mod.route('/approveproj/<int:id>', methods=['POST'])
 def project_approval(id):
-    id = request.data.get("id")
     projects = models.Projects.query.filter_by(proj_id=id).first()
     projects.proj_approval=True
     db.session.commit()
+    return jsonify({"status": "ok"})

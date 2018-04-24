@@ -22,12 +22,12 @@
             <td>{{ row.proj_budget }}</td>
             <td>{{ row.proj_hours }}</td>
             <td>NA</td>
-            {% if row.proj_approval=="True" %}
+            {% if row.proj_approval is sameas true %}
                 <td><span class="badge badge-success">Approved</span></td>
-            {% elif row.proj_approval=="False" %}
-                <td><span class="badge badge-danger">Denied</span></td>
-            {% else %}
+            {% elif row.proj_approval is sameas none %}
                 <td><span class="badge badge-secondary">Pending</span></td>
+            {% elif row.proj_approval is sameas false %}
+                <td><span class="badge badge-danger">Denied</span></td>
             {% endif %}
             <td><a href="{{ url_for("projects.project_details",  id=row.proj_id) }}"><i class="fas fa-edit"></i></a></td>
         </tr>

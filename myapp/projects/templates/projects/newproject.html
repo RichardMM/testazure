@@ -98,12 +98,14 @@
 {% block morescripts %}
     <script>
         $(document).ready(function(){
-            $("approvalButton").click(function(e){
+            $("#approvalButton").click(function(e){
                 $.ajax({
                     data:{approve:"approve"},
                     url:"/approveproj/{{ id }}",
                     type:"POST"
 
+                }).done(function(data){
+                    console.log("Approved");
                 })
             })
         })
