@@ -1,5 +1,5 @@
 from .views import projects_mod
-from flask import request
+from flask import request,session, redirect, url_for
 from myapp import models, db, files
 
 
@@ -16,11 +16,11 @@ def upload_projdetails():
 @projects_mod.route('/uploadfile', methods=['POST'])
 def upload_files():
     # remember to remove this
-    foldername = "photfirst"
+    foldername = session["project_name"]
     name = request.form["fileName"] + '.'
-    uploaded_files = files.save(request.files['projFile'],
+    files.save(request.files['projFile'],
                                 folder=foldername, name=name)
-    return uploaded_files
+    return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
 @projects_mod.route('/postissues', methods=['POST'])
 def upload_issues():
@@ -28,11 +28,15 @@ def upload_issues():
         items=["issue_title", "issue_descr"]
         issue_det = {item: request.form.get(item) for item in items}
         # remember to remove this
-        issue_det["issue_proj"] = 3
+        issue_det["issue_proj"] = session["project_id"]
         new_details = models.ProjectIssues(**issue_det)
         db.session.add(new_details)
         db.session.commit()
-    return 'ok' 
+    return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
-
-
+@projects_mod.route('/approveproj/<int: id>', methods=['POST'])
+def project_approval(id):
+    id = request.data.get("id")
+    projects = models.Projects.query.filter_by(proj_id=id).first()
+    projects.proj_approval=True
+    db.session.commit()

@@ -1,10 +1,20 @@
 
+from pathlib import Path
 from flask import render_template, request,session
 from flask import Blueprint
 from myapp import mail,models, db
 from flask_mail import Message
+from sqlalchemy.exc import OperationalError
+
 projects_mod = Blueprint('projects', import_name=__name__, template_folder='templates')
 
+def check_db_connection(func):
+    def wrapper():
+        try:
+            func()
+        except OperationalError:
+            return "We could not connect to the database"
+    return wrapper  
 
 @projects_mod.route("/", methods=["GET", 'POST'])
 def home():
@@ -18,11 +28,15 @@ def project_details(id=None):
     managers = models.ProjectManagers.query.all()
     if id is None:
         return render_template('projects/newproject.html', curr=currencies, 
-                                projects=proj_types, managers=managers)
+                                projects=proj_types, managers=managers, id="None", project_detail=None)
     else:
         project = models.Projects.query.filter_by(proj_id=id).first()
+        session["project_name"] = project.proj_name
+        session["project_id"] = project.proj_id
+        #create directory if doesn't exist
+        Path('./projectfilesupload/' + session["project_name"]+'/').mkdir(exist_ok=True, parents=True)
         return render_template('projects/newproject.html', curr=currencies, 
-                                projects=proj_types, managers=managers, project_detail=project)
+                                projects=proj_types, managers=managers, project_detail=project, id=id)
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
@@ -40,9 +54,3 @@ def mailer():
    msg.body = "This is the email body"
    mail.send(msg)
    return "Sent"
-
-@projects_mod.route("/management")
-def approve():
-    session["project_name"] = "Machakos Drill"
-    session["project_id"] = 2
-    return "Sent"

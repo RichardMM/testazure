@@ -7,21 +7,23 @@
             <li class="nav-item">
               <a class="nav-link active" id="projectDetails-tab" data-toggle="tab" href="#projectDetails" role="tab" aria-controls="details" aria-selected="true">Project Details</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+            {% if id!="None" %}
+                <li class="nav-item">
+                    <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
+                    </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="profile" aria-selected="false">Tasks</a>
                 </li>
-            <li class="nav-item">
-              <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="profile" aria-selected="false">Tasks</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="materials-tab" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="issues" aria-selected="false">Issues</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="Disbursements-tab" data-toggle="tab" href="#disbursements" role="tab" aria-controls="issues" aria-selected="false">Disbursements</a>
-            </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="materials-tab" data-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Materials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Issues-tab" data-toggle="tab" href="#issues" role="tab" aria-controls="issues" aria-selected="false">Issues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Disbursements-tab" data-toggle="tab" href="#disbursements" role="tab" aria-controls="issues" aria-selected="false">Disbursements</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     <div class="card-body">
@@ -73,217 +75,37 @@
                         <label for="prjDescription">Description</label>
                         <textarea type="number" name="proj_description" class="form-control" rows="5" id="prjDescription"></textarea>
                     </div>
+                    <input type="button" id="approvalButton" class="btn btn-outline-success" data_projId = "{{ id }}" value="Approve"/>
                     <input type="submit" class="btn btn-success float-right" value="Save"/>
                 </form>
             </div>
-        
-            <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-Tab">
-                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tasksModal" id="taskNewButton">Create new Task</button>
-                <div class="modal fade" id="tasksModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Enter details of new task</h3>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <form name="taskDetails" action="">
-                                    <div class="form-group">
-                                        <label for="taskName">Task title</label>
-                                        <input type="text" class="form-control" id="taskName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="taskDesc">Task Description</label>
-                                        <textarea class="form-control" id="taskDesc" rows="5"></textarea>
-                                    </div>
-                                    <div class="form-inline">
-                                        <div class="form-group mr-2">
-                                            <label for="taskStartDate">StartDate: </label>
-                                            <input type="date" class="form-control form-control-sm" id="taskStartDate">
-                                        </div>
-                                        <div class="form-group mr-2">
-                                            <label for="taskHours">Planned Hours: </label>
-                                            <input type="number" class="form-control form-control-sm" id="taskHours">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="taskStatus">Completion status: </label>
-                                            <select class="form-control form-control-sm" id="taskStatus">
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-success float-right" data-dismiss="modal" value="Save"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <table class="table mt-2">
-                    <th>S/N</th>
-                    <th>Task name</th>
-                    <th>Start Date</th>
-                    <th>Planned Hours</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">Yeah</div>
-            <div class="tab-pane fade" id="issues" role="tabpanel" aria-labelledby="issues-tab">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#issueModal" id="issNewButton">Report New issue</button>
-                <div class="modal fade" id="issueModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <form name ="issueDetails" method="POST" role="form" action="{{ url_for("projects.upload_issues") }}">
-                                <div class="modal-header">
-                                    <h3 class="modal-title">Enter details of new issue</h3>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="issName">Issue title</label>
-                                        <input type="text" name="issue_title" class="form-control" id="issName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="issDesc">Issue Description</label>
-                                        <textarea class="form-control" name="issue_descr" id="issDesc" rows="5"></textarea>
-                                    </div>
-                                        <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Responder:</span>
-                                                    </div>
-                                                    <select class="form-control" name="issue_responder" id="">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label for="issResp">Response</label>
-                                        <textarea class="form-control" name="issue_response" id="issResp" rows="5" readonly></textarea>
-                                        </div>
-                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-success float-right"  value="Save"/>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <table class="table mt-2">
-                    <th>S/N</th>
-                    <th>Issue Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-Tab">
-                <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#filesModal" id="fileNewButton">Upload new file</button>
-                <div class="modal fade" id="filesModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Upload File</h3>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <form role="form" name="fileUpload" method="POST" action="{{ url_for("projects.upload_files") }}" enctype="multipart/form-data">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="fileName">Give short but descriptive name for file</label>
-                                        <input type="text" name="fileName" class="form-control" id="fileName" rows="5">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fileLoc">Select file</label>
-                                        <input id="fileLoc" name="projFile" class="form-control-file" type="file"/>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-success float-right" value="Save"/>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        Cras justo odio
-                        <a role="button" class="btn btn-outline-info btn-sm float-right" id="viewFileBtn">View</a>
-                    </li>
-                    {{ listfiles(["name1", "name2", "name3"]) }}
-                </ul>
-            </div>
-            <div class="tab-pane fade" id="disbursements" role="tabpanel" aria-labelledby="disbursements-tab">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#disbursementsModal" id="issNewButton">Request funds</button>
-                <div class="modal fade" id="disbursementsModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Enter details of new disbursement</h3>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="">
-                                    <div class="form-group">
-                                        <label for="issDesc">Disbursement Description</label>
-                                        <textarea class="form-control" id="disDesc" rows="5"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="issName">Disbursement Amount</label>
-                                        <input type="number" class="form-control" id="disName">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-success float-right" data-dismiss="modal" value="Request"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <table class="table mt-2">
-                    <th>S/N</th>
-                    <th>Request Date</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Approved Amount</th>
-                    <th>Approver</th>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr></tr>
-                    </tbody>
-                </table>
-            </div>
+        {% if id!="None" %}
+            {% include "projects/projects tabs/file upload.html" %}
+            {% include "projects/projects tabs/issues.html" %}
+            {% include "projects/projects tabs/materials.html" %}
+            {% include "projects/projects tabs/tasks.html" %}
+            {% include "projects/projects tabs/disbursements.html" %}
+
+        {% endif %}
+
+
+
+
         </div>
     </div>  
 </div>
+{% endblock %}
+{% block morescripts %}
+    <script>
+        $(document).ready(function(){
+            $("approvalButton").click(function(e){
+                $.ajax({
+                    data:{approve:"approve"},
+                    url:"/approveproj/{{ id }}",
+                    type:"POST"
+
+                })
+            })
+        })
+    </script>
 {% endblock %}

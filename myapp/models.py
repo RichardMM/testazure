@@ -60,5 +60,9 @@ class IssueResponse(db.Model):
     issue_response =  db.Column(db.VARCHAR(10000), nullable=True)
     response_date = db.Column(db.Date, default=datetime.datetime.utcnow, nullable=False)
 
+class ProjectsApprovers(db.Model):
+    __tablename_ = "projects_approvers"
+    approver_name = db.Column(db.VARCHAR(30), nullable=False)
+    approver_code = db.Column(db.NVARCHAR(20), primary_key=True)
 
 
