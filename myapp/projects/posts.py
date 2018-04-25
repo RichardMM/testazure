@@ -1,5 +1,5 @@
 from .views import projects_mod
-from flask import request,session, redirect, url_for, jsonify
+from flask import request,session, redirect, url_for, jsonify, flash
 from myapp import models, db, files
 
 
@@ -10,7 +10,8 @@ def upload_projdetails():
         new_details = models.Projects(**proj_data)
         db.session.add(new_details)
         db.session.commit()
-    return 'ok'
+        flash(message="Project has been saved")
+    return redirect(url_for("projects.projects"))
 
 @projects_mod.route('/uploadfile', methods=['POST'])
 def upload_files():
@@ -18,6 +19,7 @@ def upload_files():
     foldername = session["project_name"]
     name = request.form["fileName"] + '.'
     files.save(request.files['projFile'],folder=foldername, name=name)
+    flash(message= name + " file for " + session["project_name"] + " project has been saved")
     return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
 @projects_mod.route('/postissues', methods=['POST'])
@@ -30,6 +32,7 @@ def upload_issues():
         new_details = models.ProjectIssues(**issue_det)
         db.session.add(new_details)
         db.session.commit()
+        flash(message="Issue for " + session["project_name"] + " project has been reported")
     return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
 @projects_mod.route('/approveproj/<int:id>', methods=['POST'])
@@ -46,7 +49,8 @@ def disb_post(id):
     new_details = models.ProjectDisbursements(**proj_data)
     db.session.add(new_details)
     db.session.commit()
-    return 'ok'
+    flash(message="Disbursement for " + session["project_name"] + " project has been saved")
+    return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
 @projects_mod.route('/savetask/<int:id>', methods=['POST'])
 def task_post(id):
@@ -55,4 +59,5 @@ def task_post(id):
     new_details = models.ProjectTasks(**proj_data)
     db.session.add(new_details)
     db.session.commit()
-    return "odk"
+    flash(message="Task for " + session["project_name"] + " project has been saved")
+    return redirect(url_for("projects.project_details",  id=session["project_id"]))

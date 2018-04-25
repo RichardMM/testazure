@@ -27,6 +27,16 @@
         </ul>
     </div>
     <div class="card-body">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="projectDetails" role="tabpanel" aria-labelledby="details-Tab">
                 <form name="basicProjDetails" action="/postprojdetails" role="form" method="post">

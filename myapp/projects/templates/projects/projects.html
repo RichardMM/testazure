@@ -1,10 +1,22 @@
 {% extends "projects/base.html" %}
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">
+        <strong>Success!</strong> {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="row">
     <div class="col">
         <a class="btn btn-success mt-3 float-right" href="{{ url_for("projects.project_details") }}">New Project</a>
     </div>
 </div>
+
 <table class="table mt-2">
     <th>S/N</th>
     <th>Project Name</th>

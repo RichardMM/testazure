@@ -39,4 +39,4 @@ from myapp.projects import posts
 db.create_all()
 
 app.register_blueprint(projects_mod)
-app.register_blueprint(calendar_mod, url_prefix='calendar')
+app.register_blueprint(calendar_mod, url_prefix='/calendar')
