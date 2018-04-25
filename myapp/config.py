@@ -21,4 +21,4 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # }
 
 ##files storage
-UPLOADED_FILES_DEST = "projectfilesupload/"
+UPLOADED_FILES_DEST = "./projectfilesupload/"

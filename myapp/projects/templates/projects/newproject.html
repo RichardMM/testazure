@@ -55,14 +55,13 @@
                         </div>
                         <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="prjType">Select Client</label>
-                                        <select type="text" name="proj_client" class="form-control" id="prjClient">
-                                            {% for row in clients %} 
-                                                <option value="{{ clients.client_id }}">{{ clients.client_name }}</option>">
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                            
+                                    <label for="prjType">Select Client</label>
+                                    <select type="text" name="proj_client" class="form-control" id="prjClient">
+                                        {% for row in clients %} 
+                                            <option value="{{ clients.client_id }}">{{ clients.client_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                            
                         </div>
                     </div>
 

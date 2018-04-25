@@ -68,7 +68,7 @@ def project_details(id=None):
     managers = models.ProjectManagers.query.all()
     clients = models.Clients.query.all()
     if id is None:
-        return render_template('projects/newproject.html', curr=currencies, 
+        return render_template('projects/newproject.html', curr=currencies, clients=clients,
                                 projects=proj_types, managers=managers, id="None", project_detail=None)
     else:
         project = models.Projects.query.filter_by(proj_id=id).first()

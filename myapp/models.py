@@ -3,9 +3,12 @@ from myapp import db
 from flask_login import UserMixin
 
 class Users(UserMixin, db.Model):
+    __tablename_ = "users"
     user_name = db.Column(db.VARCHAR(30), nullable=False)
     user_password = db.Column(db.VARCHAR(200))
     user_empcode = db.Column(db.NVARCHAR(15), nullable=False, primary_key=True)
+    user_approver_rights =  db.Column(db.Boolean, nullable=False)
+    disbursements_approval_rights = db.Column(db.Boolean, nullable=False)
 
 class Projects(db.Model):
     __tablename_ = "Projects"
@@ -48,22 +51,30 @@ class ProjectManagers(db.Model):
 class ProjectIssues(db.Model):
     __tablename_ = "project_issues"
     issue_proj =  db.Column(db.Integer)
-    issue_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    issue_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     issue_title = db.Column(db.VARCHAR(40), nullable=False)
     issue_descr =  db.Column(db.VARCHAR(10000), nullable=True)
-    issue_date = db.Column(db.Date, nullable=False, default=datetime.datetime.utcnow)
+    issue_date = db.Column(db.Date, nullable=False, default=datetime.datetime.today)
 
 class IssueResponse(db.Model):
-    __tablename_ = "IssueResponse"
+    __tablename_ = "issue_response"
     issue_id = db.Column(db.Integer, nullable=False)
     response_id = db.Column(db.Integer, nullable=False, primary_key=True)
     issue_responder = db.Column(db.NVARCHAR(15), nullable=False)
     issue_response =  db.Column(db.VARCHAR(10000), nullable=True)
-    response_date = db.Column(db.Date, default=datetime.datetime.utcnow, nullable=False)
+    response_date = db.Column(db.Date, default=datetime.datetime.today, nullable=False)
 
-class ProjectsApprovers(db.Model):
-    __tablename_ = "projects_approvers"
-    approver_name = db.Column(db.VARCHAR(30), nullable=False)
-    approver_code = db.Column(db.NVARCHAR(20), primary_key=True)
+class ProjectDisbursements(db.Model):
+    __tablename_ = "project_disbursements"
+    disb_id = db.Column(db.Integer, primary_key=True)
+    disb_amt = db.Column(db.VARCHAR(30), nullable=False)
+    disb_approver = db.Column(db.NVARCHAR(20))
+    disb_status = db.Column(db.Boolean)
+    disb_desc = db.Column(db.VARCHAR(10000), nullable=False)
+    disb_proj = db.Column(db.Integer)
+    disb_date = db.Column(db.Date, default=datetime.datetime.today, nullable=False)
+
+
+
 
 
