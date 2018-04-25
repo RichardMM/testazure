@@ -1,7 +1,8 @@
 import datetime
 from myapp import db
+from flask_login import UserMixin
 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     user_name = db.Column(db.VARCHAR(30), nullable=False)
     user_password = db.Column(db.VARCHAR(200))
     user_empcode = db.Column(db.NVARCHAR(15), nullable=False, primary_key=True)
@@ -22,7 +23,7 @@ class Projects(db.Model):
 
 class Clients(db.Model):
     __tablename_ = "clients"
-    client_id = db.Column(db.NVARCHAR(20), primary_key=True)
+    client_id = db.Column(db.NVARCHAR(20), primary_key=True, autoincrement=True)
     client_name = db.Column(db.NVARCHAR(40), nullable=False)
     project = db.relationship("Projects", backref="client", lazy="dynamic")
 
