@@ -7,8 +7,8 @@
                     <h3 class="modal-title">Enter details of new disbursement</h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ url_for("disb_approval", id=id) }}">
+                <form action="{{ url_for("projects.disb_approval", id=id) }}" method="POST" ROLE="form">
+                    <div class="modal-body">                  
                         <div class="form-group">
                             <label for="issDesc">Disbursement Description</label>
                             <textarea name="disb_desc" class="form-control" id="disDesc" rows="5"></textarea>
@@ -16,12 +16,12 @@
                         <div class="form-group">
                             <label for="issName">Disbursement Amount</label>
                             <input type="number" name="disb_amt" class="form-control" id="disName">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-success float-right" value="Request"/>
-                </div>
+                        </div>                   
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success float-right" value="Request"/>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -30,17 +30,17 @@
         <th>Request Date</th>
         <th>Amount</th>
         <th>Status</th>
-        <th>Approved Amount</th>
         <th>Approver</th>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            {% for row in disb %}
+                <tr>
+                    <td>{{ row.disb_id }}</td>
+                    <td>{{ row.disb_date }}</td>
+                    <td>{{ row.disb_amt }}</td>
+                    <td>{{ row.disb_status }}</td>
+                    <td>{{ row.disb_approver }}</td>
+                </tr>
+            {{% endfor %}}
             <tr></tr>
         </tbody>
     </table>

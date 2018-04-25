@@ -77,9 +77,12 @@ def project_details(id=None):
                                 id="None", project_detail=None,  can_approve=False)
     else:
         # Query data needed for an existing project
+        project = models.Projects.query.filter_by(proj_id=id).first()
+        disbursements = models.ProjectDisbursements.query.filter_by(disb_proj=id).first()
+
         issues_base = models.ProjectIssues.query.filter_by(issue_proj=id)
         issues = issues_base.all()
-        project = models.Projects.query.filter_by(proj_id=id).first()
+        
         response_count = models.IssueResponse.query.filter(models.IssueResponse.issue_id.in_\
                          (issues_base.with_entities(models.ProjectIssues.issue_id).all()))
         for row in response_count:
@@ -95,7 +98,7 @@ def project_details(id=None):
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers, project_detail=project,
                                 id=session["project_id"], clients=clients, issues=issues,
-                                can_approve=session["approval_rights"], files=directory_generator)
+                                can_approve=session["approval_rights"], files=directory_generator, disb=disbursements)
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])

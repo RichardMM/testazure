@@ -23,6 +23,7 @@ class Projects(db.Model):
     proj_description = db.Column(db.NVARCHAR(1000))
     proj_type = db.Column(db.Integer, db.ForeignKey("project_types.type_id"))
     proj_currency = db.Column(db.Integer, db.ForeignKey("currency.curr_id"))
+    proj_disbs = db.relationship("project_disbursements", lazy="dynamic", backref="project")
 
 class Clients(db.Model):
     __tablename_ = "clients"
@@ -71,7 +72,7 @@ class ProjectDisbursements(db.Model):
     disb_approver = db.Column(db.NVARCHAR(20))
     disb_status = db.Column(db.Boolean)
     disb_desc = db.Column(db.VARCHAR(10000), nullable=False)
-    disb_proj = db.Column(db.Integer)
+    disb_proj = db.Column(db.Integer, db.ForeignKey(Projects.proj_id))
     disb_date = db.Column(db.Date, default=datetime.datetime.today, nullable=False)
 
 
