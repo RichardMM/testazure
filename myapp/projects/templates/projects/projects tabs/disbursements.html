@@ -7,7 +7,7 @@
                     <h3 class="modal-title">Enter details of new disbursement</h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{ url_for("projects.disb_approval", id=id) }}" method="POST" ROLE="form">
+                <form action="{{ url_for("projects.disb_post", id=id) }}" method="POST" ROLE="form">
                     <div class="modal-body">                  
                         <div class="form-group">
                             <label for="issDesc">Disbursement Description</label>
@@ -40,7 +40,7 @@
                     <td>{{ row.disb_status }}</td>
                     <td>{{ row.disb_approver }}</td>
                 </tr>
-            {{% endfor %}}
+            {% endfor %}
             <tr></tr>
         </tbody>
     </table>

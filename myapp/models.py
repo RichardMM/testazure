@@ -23,7 +23,10 @@ class Projects(db.Model):
     proj_description = db.Column(db.NVARCHAR(1000))
     proj_type = db.Column(db.Integer, db.ForeignKey("project_types.type_id"))
     proj_currency = db.Column(db.Integer, db.ForeignKey("currency.curr_id"))
-    proj_disbs = db.relationship("project_disbursements", lazy="dynamic", backref="project")
+    proj_create_date = db.Column(db.Date, default=datetime.date.today, nullable=False)
+
+    proj_disbs = db.relationship("ProjectDisbursements", lazy="dynamic", backref="project")
+    proj_tasks = db.relationship("ProjectTasks", lazy="dynamic", backref="project")
 
 class Clients(db.Model):
     __tablename_ = "clients"
@@ -55,7 +58,7 @@ class ProjectIssues(db.Model):
     issue_id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     issue_title = db.Column(db.VARCHAR(40), nullable=False)
     issue_descr =  db.Column(db.VARCHAR(10000), nullable=True)
-    issue_date = db.Column(db.Date, nullable=False, default=datetime.datetime.today)
+    issue_date = db.Column(db.Date, nullable=False, default=datetime.date.today)
 
 class IssueResponse(db.Model):
     __tablename_ = "issue_response"
@@ -73,7 +76,19 @@ class ProjectDisbursements(db.Model):
     disb_status = db.Column(db.Boolean)
     disb_desc = db.Column(db.VARCHAR(10000), nullable=False)
     disb_proj = db.Column(db.Integer, db.ForeignKey(Projects.proj_id))
-    disb_date = db.Column(db.Date, default=datetime.datetime.today, nullable=False)
+    disb_date = db.Column(db.Date, default=datetime.date.today, nullable=False)
+
+class ProjectTasks(db.Model):
+    __tablename_ = "project_tasks"
+    task_proj = db.Column(db.Integer, db.ForeignKey(Projects.proj_id))
+    task_id = db.Column(db.Integer, primary_key=True)
+    task_title = db.Column(db.VARCHAR(30), nullable=False)
+    task_desc = db.Column(db.VARCHAR(10000), nullable=False)
+    task_start = db.Column(db.Date)
+    task_deadline = db.Column(db.Date)
+    task_hours = db.Column(db.Numeric, nullable=False)
+    completion_status = db.Column(db.Numeric)
+    task_issue_date = db.Column(db.DateTime, default=datetime.datetime.today, nullable=False)
 
 
 

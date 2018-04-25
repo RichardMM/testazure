@@ -39,11 +39,20 @@ def project_approval(id):
     db.session.commit()
     return jsonify({"status": "ok"})
 
-@projects_mod.route('/approvedisbursements/<int:id>', methods=['POST'])
-def disb_approval(id):
+@projects_mod.route('/savedisbursements/<int:id>', methods=['POST'])
+def disb_post(id):
     proj_data = request.form.to_dict()
     proj_data["disb_proj"] = session["project_id"]
     new_details = models.ProjectDisbursements(**proj_data)
     db.session.add(new_details)
     db.session.commit()
     return 'ok'
+
+@projects_mod.route('/savetask/<int:id>', methods=['POST'])
+def task_post(id):
+    proj_data = request.form.to_dict()
+    proj_data["task_proj"] = session["project_id"]
+    new_details = models.ProjectTasks(**proj_data)
+    db.session.add(new_details)
+    db.session.commit()
+    return "odk"
