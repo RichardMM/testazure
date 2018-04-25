@@ -23,7 +23,7 @@ class Projects(db.Model):
 
 class Clients(db.Model):
     __tablename_ = "clients"
-    client_id = db.Column(db.NVARCHAR(20), primary_key=True, autoincrement=True)
+    client_id = db.Column(db.NVARCHAR(20), primary_key=True)
     client_name = db.Column(db.NVARCHAR(40), nullable=False)
     project = db.relationship("Projects", backref="client", lazy="dynamic")
 

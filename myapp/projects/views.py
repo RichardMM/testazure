@@ -46,13 +46,14 @@ def login():
             session["username"] = login_form.email.data
             session["password"] = login_form.password.data
             user = models.Users.query.filter_by(user_name=session["username"], user_password=session["password"] ).first()
-            if user is None or password is None or username is None:
+            if session["password"] is None or session["username"] is None or user is None: 
                 session["logged_in"] = False
                 return "Unauthorised"
             else:
                 session["logged_in"] = True
                 return redirect(url_for("projects.projects"))
-
+        else:
+            return render_template("projects/login.htm", form=login_form)
 
 @projects_mod.route("/", methods=["GET", 'POST'])
 def home():
