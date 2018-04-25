@@ -11,7 +11,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="issName">Issue title</label>
-                            <input type="text" name="issue_title" class="form-control" id="issName">
+                            <input type="text" name="issue_title" class="form-control" id="issName" >
                         </div>
                         <div class="form-group">
                             <label for="issDesc">Issue Description</label>
@@ -45,16 +45,17 @@
     <table class="table mt-2">
         <th>S/N</th>
         <th>Issue Date</th>
-        <th>Status</th>
+        <th>#Responses</th>
         <th>Action</th>
         <tbody>
+            {% for row in issues %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ row.issue_id }}</td>
+                <td>{{ row.issue_date }}</td>
+                <td>{{ row.issue_id }}</td>
+                <td>{{ row.issue_id }}</td>
             </tr>
-            <tr></tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

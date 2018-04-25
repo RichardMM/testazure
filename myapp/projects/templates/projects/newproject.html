@@ -58,7 +58,7 @@
                                     <label for="prjType">Select Client</label>
                                     <select type="text" name="proj_client" class="form-control" id="prjClient">
                                         {% for row in clients %} 
-                                            <option value="{{ clients.client_id }}">{{ clients.client_name }}</option>
+                                            <option value="{{ row.client_id }}">{{ row.client_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>                            
@@ -90,7 +90,9 @@
                         <label for="prjDescription">Description</label>
                         <textarea type="number" name="proj_description" class="form-control" rows="5" id="prjDescription"></textarea>
                     </div>
-                    <input type="button" id="approvalButton" class="btn btn-outline-success" data_projId = "{{ id }}" value="Approve"/>
+                    {% if can_approve is sameas true %}
+                        <input type="button" id="approvalButton" class="btn btn-outline-success" data_projId = "{{ id }}" value="Approve"/>
+                    {% endif %}
                     <input type="submit" class="btn btn-success float-right" value="Save"/>
                 </form>
             </div>

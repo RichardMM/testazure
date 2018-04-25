@@ -17,8 +17,7 @@ def upload_files():
     # remember to remove this
     foldername = session["project_name"]
     name = request.form["fileName"] + '.'
-    files.save(request.files['projFile'],
-                                folder=foldername, name=name)
+    files.save(request.files['projFile'],folder=foldername, name=name)
     return redirect(url_for("projects.project_details",  id=session["project_id"]))
 
 @projects_mod.route('/postissues', methods=['POST'])
@@ -39,3 +38,12 @@ def project_approval(id):
     projects.proj_approval=True
     db.session.commit()
     return jsonify({"status": "ok"})
+
+@projects_mod.route('/approvedisbursements/<int:id>', methods=['POST'])
+def disb_approval(id):
+    proj_data = request.form.to_dict()
+    proj_data["disb_proj"] = session["project_id"]
+    new_details = models.ProjectDisbursements(**proj_data)
+    db.session.add(new_details)
+    db.session.commit()
+    return 'ok'
