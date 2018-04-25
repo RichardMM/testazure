@@ -42,14 +42,30 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="prjType">Project Type</label>
-                        <select type="text" name="" class="form-control" id="prjType">
-                            {% for row in projects %} 
-                                <option value="{{ row.type_id }}">{{ row.type_name }}</option>">
-                            {% endfor %}
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="prjType">Project Type</label>
+                                <select type="text" name="proj_type" class="form-control" id="prjType">
+                                    {% for row in projects %} 
+                                        <option value="{{ row.type_id }}">{{ row.type_name }}</option>">
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                        <label for="prjType">Select Client</label>
+                                        <select type="text" name="proj_client" class="form-control" id="prjClient">
+                                            {% for row in clients %} 
+                                                <option value="{{ clients.client_id }}">{{ clients.client_name }}</option>">
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                            
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label class=" for="prjBudget">Budget</label>
                         <div class="input-group mb-3">
