@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% from "projects/mymacros.html" import listfiles %}
-<html lang="en">
+<html lang="en" style="height:100%;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
 
     <title>Geonet ERP</title>
 </head>
-<body>
+<body style="height:100%;">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
           <img src="{{ url_for("static", filename="images/avertis_logo.png") }}" width="30" height="30" alt="">
@@ -51,7 +51,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
+    <div class="container h-100">
         {% block content %}
         {% endblock %}
 
