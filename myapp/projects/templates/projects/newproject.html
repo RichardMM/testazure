@@ -124,17 +124,25 @@
 {% endblock %}
 {% block morescripts %}
     <script>
-        $(document).ready(function(){
-            $("#approvalButton").click(function(e){
-                $.ajax({
-                    data:{approve:"approve"},
-                    url:"/approveproj/{{ id }}",
-                    type:"POST"
+        function callAjax(mydata, myurl, logmessage){
+            $.ajax({
+                    data:mydata,
+                    url:myurl,
+                    type:"POST",
+                    error:function(object, status, errortext){
+                        console.log("Status is " + status);
+                        console.log("Error is " + errortext);
+                    }
 
                 }).done(function(data){
-                    console.log("Approved");
+                    console.log(logmessage);
                 })
-            })
+        }
+        $(document).ready(
+            function(){
+            $("#approvalButton").click(function(e){
+                callAjax({approve:"approve"}, "/approveproj/{{ id }}", "Approved");
+            });
         })
     </script>
 {% endblock %}
