@@ -39,14 +39,14 @@
 
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="projectDetails" role="tabpanel" aria-labelledby="details-Tab">
-                <form name="basicProjDetails" action="/postprojdetails" role="form" method="post">
+                <form name="basicProjDetails" id="basicProjDetails" action="/postprojdetails" role="form" method="post">
                     <div class="form-group">
                         <label for="prjName">Project Name</label>
-                        <input type="text" name="proj_name" class="form-control" id="prjName" value="{{ project_detail.proj_name }}">
+                        <input type="text" name="proj_name" class="form-control" id="prjName" value="{{ project_detail.proj_name }}" required {{ readonly }}>
                     </div>
                     <div class="form-group">
                         <label for="prjManager">Manager Name</label>
-                        <select type="text" name="proj_manager" class="form-control" id="prjManager">
+                        <select type="text" name="proj_manager" class="form-control" id="prjManager" {{ readonly }}>
                             {% for row in managers %}
                                 {% if row.manager_code==project_detail.proj_manager %}
                                     <option value="{{ row.manager_code }}" selected>{{ row.manager_name }}</option>
@@ -60,7 +60,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="prjType">Project Type</label>
-                                <select type="text" name="proj_type" class="form-control" id="prjType">
+                                <select type="text" name="proj_type" class="form-control" id="prjType" {{ readonly }}>
                                     {% for row in projects %}
                                         {% if row.type_id==project_detail.proj_type %}
                                             <option value="{{ row.type_id }}" selected>{{ row.type_name }}</option>
@@ -74,7 +74,7 @@
                         <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="prjType">Select Client</label>
-                                    <select type="text" name="proj_client" class="form-control" id="prjClient">
+                                    <select type="text" name="proj_client" class="form-control" id="prjClient" {{ readonly }}>
                                         {% for row in clients %}
                                             {% if row.client_id==project_detail.proj_client %}
                                                 <option value="{{ row.client_id }}" selected>{{ row.client_name }}</option>">
@@ -92,7 +92,7 @@
                         <label class="" for="prjBudget">Budget</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <select class="custom-select" name="proj_currency" id="selCurrency">
+                                <select class="custom-select" name="proj_currency" id="selCurrency" {{ readonly }}>
                                     {% for row in curr %}
                                         {% if row.curr_id==project_detail.proj_currency %}
                                             <option value="{{ row.curr_id }}" selected>{{ row.curr_name }}</option>">
@@ -102,25 +102,28 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <input type="number" name="proj_budget" class="form-control" id="prjBudget" value="{{ project_detail.proj_budget }}">
+                            <input type="number" name="proj_budget" class="form-control" id="prjBudget" value="{{ project_detail.proj_budget }}" required {{ readonly }}>
                           </div>
                     </div>
                     <div class="form-group">
                         <label for="prjHours">Planned Hours</label>
-                        <input type="number" name="proj_hours" class="form-control" id="prjHours">
+                        <input type="number" name="proj_hours" class="form-control" id="prjHours" value="{{ project_detail.proj_hours }}" required {{ readonly }}>
                     </div>
                     <div class="form-group">
                         <label for="prjDeadline">Deadline</label>
-                        <input type="date" name="proj_deadline" class="form-control" id="prjDeadline">
+                        <input type="date" name="proj_deadline" class="form-control" id="prjDeadline" value="{{ project_detail.proj_deadline.strftime("%Y-%m-%d") if  project_detail != none else ""}}" required {{ readonly }}>
                     </div>
                     <div class="form-group">
                         <label for="prjDescription">Description</label>
-                        <textarea type="number" name="proj_description" class="form-control" rows="5" id="prjDescription"></textarea>
+                        <textarea type="number" name="proj_description" class="form-control" rows="5" id="prjDescription" required {{ readonly }}>{{ project_detail.proj_description }}</textarea>
                     </div>
-                    {% if can_approve is sameas true %}
+                    {% if can_approve is sameas true and readonly=="" %}
                         <input type="button" id="approvalButton" class="btn btn-outline-success" data_projId = "{{ id }}" value="Approve"/>
                     {% endif %}
-                    <input type="submit" class="btn btn-success float-right" value="Save"/>
+
+                    {% if readonly is not defined%}
+                        <input type="submit" class="btn btn-success float-right" value="Save"/>
+                    {% endif %}
                 </form>
             </div>
         {% if id!="None" %}
@@ -211,9 +214,12 @@
         $(document).ready(
             function(){
             // all my event listeners
-            //1. approval button
+            //1. Approve project when approval is clicked
             $("#approvalButton").click(function(e){
-                callAjax({approve:"approve"}, "/approveproj/{{ id }}", "Approved", simplyLog);
+                //submit entire form
+                form_data = $("#basicProjDetails").serialize()
+                console.log(form_data)
+                callAjax(form_data, "/approveproj/{{ id }}", "Approved", simplyLog);
             });
             //2. Dusbursement ajax
             $(".ajaxDisbursement").click(function(e){

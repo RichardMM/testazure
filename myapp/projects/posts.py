@@ -36,8 +36,10 @@ def upload_issues():
 
 @projects_mod.route('/approveproj/<int:id>', methods=['POST'])
 def project_approval(id):
-    projects = models.Projects.query.filter_by(proj_id=id).first()
-    projects.proj_approval=True
+    projects_data = request.form.to_dict()
+    projects_data["proj_approval"] = True
+    print(projects_data)
+    projects = models.Projects.query.filter_by(proj_id=id).update(projects_data)
     db.session.commit()
     return jsonify({"status": "ok"})
 

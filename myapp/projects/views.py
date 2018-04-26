@@ -95,6 +95,11 @@ def project_details(id=None):
         session["project_name"] = project.proj_name
         session["project_id"] = project.proj_id
 
+        #check if project has been approved to prevent editing
+        readonly=""
+        if project.proj_approval:
+            readonly="disabled"
+
         #create directory if doesn't exist
         path = current_app.config["UPLOADED_FILES_DEST"] + session["project_name"]+'/'
         Path(path).mkdir(exist_ok=True, parents=True)
@@ -102,8 +107,8 @@ def project_details(id=None):
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers, project_detail=project,
                                 id=session["project_id"], clients=clients, issues=issues,
-                                can_approve=session["approval_rights"], files=directory_generator,
-                                tasks=tasks, disb=disbursements, users=usernames)
+                                can_approve=, files=directory_generator,
+                                tasks=tasks, disb=disbursements, users=usernames, readonly=readonly)
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])
