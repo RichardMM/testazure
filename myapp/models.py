@@ -4,11 +4,13 @@ from flask_login import UserMixin
 
 class Users(UserMixin, db.Model):
     __tablename_ = "users"
-    user_name = db.Column(db.VARCHAR(30), nullable=False)
+    user_email= db.Column(db.VARCHAR(30), nullable=False)
+    user_name= db.Column(db.VARCHAR(30), nullable=False)
     user_password = db.Column(db.VARCHAR(200))
     user_empcode = db.Column(db.NVARCHAR(15), nullable=False, primary_key=True)
     user_approver_rights =  db.Column(db.Boolean, nullable=False)
     disbursements_approval_rights = db.Column(db.Boolean, nullable=False)
+    responses = db.relationship("IssueResponse", lazy="dynamic", backref="user")
 
 class Projects(db.Model):
     __tablename_ = "Projects"
@@ -59,14 +61,16 @@ class ProjectIssues(db.Model):
     issue_title = db.Column(db.VARCHAR(40), nullable=False)
     issue_descr =  db.Column(db.VARCHAR(10000), nullable=True)
     issue_date = db.Column(db.Date, nullable=False, default=datetime.date.today)
+    responses = db.relationship("IssueResponse", lazy="dynamic", backref="issue")
 
 class IssueResponse(db.Model):
     __tablename_ = "issue_response"
-    issue_id = db.Column(db.Integer, nullable=False)
+    issue_id = db.Column(db.Integer,  db.ForeignKey(ProjectIssues.issue_id), nullable=False)
     response_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    issue_responder = db.Column(db.NVARCHAR(15), nullable=False)
+    issue_responder = db.Column(db.NVARCHAR(15), db.ForeignKey(Users.user_empcode), nullable=False)
     issue_response =  db.Column(db.VARCHAR(10000), nullable=True)
-    response_date = db.Column(db.Date, default=datetime.datetime.today, nullable=False)
+    response_date = db.Column(db.Date, default=datetime.date.today, nullable=False)
+
 
 class ProjectDisbursements(db.Model):
     __tablename_ = "project_disbursements"
@@ -76,7 +80,7 @@ class ProjectDisbursements(db.Model):
     disb_status = db.Column(db.Boolean)
     disb_desc = db.Column(db.VARCHAR(10000), nullable=False)
     disb_proj = db.Column(db.Integer, db.ForeignKey(Projects.proj_id))
-    disb_date = db.Column(db.Date, default=datetime.date.today, nullable=False)
+    disb_date = db.Column(db.DateTime, default=datetime.datetime.today, nullable=False)
 
 class ProjectTasks(db.Model):
     __tablename_ = "project_tasks"
