@@ -46,13 +46,15 @@ def login():
         if login_form.validate_on_submit():
             session["username"] = login_form.email.data
             session["password"] = login_form.password.data
-            user = models.Users.query.filter_by(user_name=session["username"], user_password=session["password"] ).first()
-            session["approval_rights"] = user.user_approver_rights
+            user = models.Users.query.filter_by(user_email=session["username"], user_password=session["password"] ).first()
+
             if session["password"] is None or session["username"] is None or user is None: 
                 session["logged_in"] = False
                 return "Unauthorised"
             else:
                 session["logged_in"] = True
+                session["approval_rights"] = user.user_approver_rights
+                session["empcode"] = user.user_empcode
                 return redirect(url_for("projects.projects"))
         else:
             return render_template("projects/login.htm", form=login_form)
@@ -80,6 +82,7 @@ def project_details(id=None):
         project = models.Projects.query.filter_by(proj_id=id).first()
         disbursements = models.ProjectDisbursements.query.filter_by(disb_proj=id).all()
         tasks = models.ProjectTasks.query.filter_by(task_proj=id).all()
+        usernames = models.Users.query.with_entities(models.Users.user_empcode, models.Users.user_name).all()
 
         issues_base = models.ProjectIssues.query.filter_by(issue_proj=id)
         issues = issues_base.all()
@@ -100,7 +103,7 @@ def project_details(id=None):
                                 projects=proj_types, managers=managers, project_detail=project,
                                 id=session["project_id"], clients=clients, issues=issues,
                                 can_approve=session["approval_rights"], files=directory_generator,
-                                tasks=tasks, disb=disbursements)
+                                tasks=tasks, disb=disbursements, users=usernames)
 
 
 @projects_mod.route("/projects", methods=["GET", 'POST'])

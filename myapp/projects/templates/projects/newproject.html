@@ -47,8 +47,12 @@
                     <div class="form-group">
                         <label for="prjManager">Manager Name</label>
                         <select type="text" name="proj_manager" class="form-control" id="prjManager">
-                            {% for row in managers %} 
-                                <option value="{{ row.manager_code }}">{{ row.manager_name }}</option>">
+                            {% for row in managers %}
+                                {% if row.manager_code==project_detail.proj_manager %}
+                                    <option value="{{ row.manager_code }}" selected>{{ row.manager_name }}</option>
+                                {% else %}
+                                    <option value="{{ row.manager_code }}" >{{ row.manager_name }}</option>">
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -57,8 +61,12 @@
                             <div class="form-group">
                                 <label for="prjType">Project Type</label>
                                 <select type="text" name="proj_type" class="form-control" id="prjType">
-                                    {% for row in projects %} 
-                                        <option value="{{ row.type_id }}">{{ row.type_name }}</option>">
+                                    {% for row in projects %}
+                                        {% if row.type_id==project_detail.proj_type %}
+                                            <option value="{{ row.type_id }}" selected>{{ row.type_name }}</option>
+                                        {% else %}
+                                            <option value="{{ row.type_id }}">{{ row.type_name }}</option>">
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -67,8 +75,13 @@
                                 <div class="form-group">
                                     <label for="prjType">Select Client</label>
                                     <select type="text" name="proj_client" class="form-control" id="prjClient">
-                                        {% for row in clients %} 
-                                            <option value="{{ row.client_id }}">{{ row.client_name }}</option>
+                                        {% for row in clients %}
+                                            {% if row.client_id==project_detail.proj_client %}
+                                                <option value="{{ row.client_id }}" selected>{{ row.client_name }}</option>">
+                                            {% else %}
+                                                <option value="{{ row.client_id }}">{{ row.client_name }}</option>
+                                            {% endif %}
+                                            
                                         {% endfor %}
                                     </select>
                                 </div>                            
@@ -76,16 +89,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label class=" for="prjBudget">Budget</label>
+                        <label class="" for="prjBudget">Budget</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <select class="custom-select" name="proj_currency" id="selCurrency">
-                                    {% for row in curr %} 
-                                        <option value="{{ row.curr_id }}">{{ row.curr_name }}</option>">
+                                    {% for row in curr %}
+                                        {% if row.curr_id==project_detail.proj_currency %}
+                                            <option value="{{ row.curr_id }}" selected>{{ row.curr_name }}</option>">
+                                        {% else %}
+                                            <option value="{{ row.curr_id }}">{{ row.curr_name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
-                            <input type="number" name="proj_budget" class="form-control" id="prjBudget">
+                            <input type="number" name="proj_budget" class="form-control" id="prjBudget" value="{{ project_detail.proj_budget }}">
                           </div>
                     </div>
                     <div class="form-group">
@@ -124,7 +141,59 @@
 {% endblock %}
 {% block morescripts %}
     <script>
-        function callAjax(mydata, myurl, logmessage){
+        //elements for disbursements modal
+        var disbtextarea = document.getElementById("disDesc");
+        var disbAmtBox =  document.getElementById("disbAmt");
+
+        //elements for issue modal
+        var issTitle = document.getElementById("issName");
+        var issDesc =  document.getElementById("issDesc");
+
+
+        //on ajax success functions
+        function simplyLog(data){
+            console.log(data);
+        };
+
+        function afterGetIssResponse(data){
+            console.log(data)
+            document.getElementById("issResp").value = data;
+
+        }
+        
+        function afterSaveResponse(data){
+            // On successs of saving an Issue's response
+            //fill response box
+            $('#issueModal').modal('hide');
+
+        }
+
+        function changeIssModal(data){
+            //On success of fetching an issue's data
+            //converts inputs to readonly and puts the right data in there
+            
+            $('#issueModal').modal('show');
+            issTitle.value = data.title;
+            issTitle.readOnly  = true;
+            issDesc.value = data.descr;
+            issDesc.readOnly  = true;
+            
+            $('#issueSubmitter').hide();
+            $('#responseSubmitter').show()
+        };
+        function changeDisbModal(data){
+            // //On success of fetching a disbursement row data
+            //converts inputs to readonly and puts the right data in there
+            $('#disbursementsModal').modal('show');
+
+            disbtextarea.value = data.desc;
+            disbtextarea.readOnly  = true;
+            disbAmtBox.value = Number(data.amount);
+            disbAmtBox.readOnly  = true;
+            
+            $('#disbRequestButton').hide();
+        };
+        function callAjax(mydata, myurl, logmessage, func){
             $.ajax({
                     data:mydata,
                     url:myurl,
@@ -132,17 +201,79 @@
                     error:function(object, status, errortext){
                         console.log("Status is " + status);
                         console.log("Error is " + errortext);
+                    },
+                    success:function(data){
+                        func(data)
                     }
 
-                }).done(function(data){
-                    console.log(logmessage);
                 })
         }
         $(document).ready(
             function(){
+            // all my event listeners
+            //1. approval button
             $("#approvalButton").click(function(e){
-                callAjax({approve:"approve"}, "/approveproj/{{ id }}", "Approved");
+                callAjax({approve:"approve"}, "/approveproj/{{ id }}", "Approved", simplyLog);
             });
+            //2. Dusbursement ajax
+            $(".ajaxDisbursement").click(function(e){
+                var use_id = $(this).data("disbid")
+                callAjax({concern:"disb"}, "/ajaxissueanddisb/" + use_id, "Success", changeDisbModal);
+            });
+            
+            $("#disbNewButton").click(function(e){
+                //return modal to new state by clearing inputs
+                $('#disbursementsModal').modal('show');
+                $('#disbRequestButton').show();
+                disbtextarea.value = "";
+                disbtextarea.readOnly  = false;
+                disbAmtBox.value = 0;
+                disbAmtBox.readOnly  = false;
+            });
+            //3. Issue ajax....has several parts
+            // On clicking ciew button for issue, first call ajax to get details of issue
+            //then listen on select to detect change
+            //then save new response if me is selected
+            // if other is selected retrieve responses and display
+            $(".ajaxIssue").click(function(e){
+                var use_id = $(this).data("issue_id")
+                callAjax({concern:"issue"}, "/ajaxissueanddisb/" + use_id, "Success", changeIssModal);
+                $("#selectResponder").change(
+                function(){
+                 var selected =  $("#selectResponder option:selected").val();
+                 if(selected=="fakeuser"){
+                    $("#responseSubmitter").show()
+                    var el = document.getElementById("issResp")
+                     el.readOnly=false;
+                     el.value="";
+                     $("#responseSubmitter").click(
+                         function(){
+                            var val = el.value;
+                            resp_data = {"issue_id":use_id, "issue_response":val}
+                            callAjax(resp_data, "{{ url_for("projects.save_iss_response") }}", "Success", afterSaveResponse);
+                         }
+                     )
+                 }else{
+                    $("#responseSubmitter").hide()
+                    document.getElementById("issResp").readOnly=true;
+                    callAjax({"responder": selected, "id":use_id}, "{{ url_for("projects.response_post_ajax") }}", "Success", afterGetIssResponse);
+                 }
+                }
+            )
+            });
+
+
+            $("#issNewButton").click(function(e){
+                ////return issue modal to new state by clearing inputs
+                $('#issueModal').modal('show');
+                $('#issueSubmitter').show();
+                $('#responseSubmitter').hide();
+                issTitle.value = "";
+                issTitle.readOnly  = false;
+                issDesc.value = "";
+                issDesc.readOnly  = false;
+            });
+
         })
     </script>
 {% endblock %}

@@ -27,7 +27,6 @@ def upload_issues():
     if request.method=='POST':
         items=["issue_title", "issue_descr"]
         issue_det = {item: request.form.get(item) for item in items}
-        # remember to remove this
         issue_det["issue_proj"] = session["project_id"]
         new_details = models.ProjectIssues(**issue_det)
         db.session.add(new_details)
@@ -61,3 +60,35 @@ def task_post(id):
     db.session.commit()
     flash(message="Task for " + session["project_name"] + " project has been saved")
     return redirect(url_for("projects.project_details",  id=session["project_id"]))
+
+@projects_mod.route('/ajaxissueanddisb/<int:id>', methods=['POST'])
+def issue_and_disb_view(id):
+    disbs = models.ProjectDisbursements.query.filter_by(disb_proj=session["project_id"], disb_id=id).first()
+    issues = models.ProjectIssues.query.filter_by(issue_proj=session["project_id"], issue_id=id).first()
+    if request.form["concern"] == "disb":
+        return jsonify({"desc": disbs.disb_desc, "amount":disbs.disb_amt})
+    else:
+
+        return jsonify({"title": issues.issue_title, "descr":issues.issue_descr})
+
+@projects_mod.route('/issueresponse', methods=['POST'])
+def response_post_ajax():
+    issues = models.ProjectIssues.query.filter_by(issue_proj=session["project_id"], issue_id=request.form["id"]).first()
+    hold_responses = []
+    for row in issues.responses:
+        if row.issue_responder==request.form["responder"]:
+            hold_responses.append(row.issue_response)
+        # responses = row.responses.query.filter_by(issue_responder=).all()
+        # for res_row in responses:
+        #     hold_responses.append(res_row.issue_response)
+    joined_response = "\n".join(hold_responses)
+    return jsonify(joined_response)
+
+@projects_mod.route('/saveresponse', methods=['POST'])
+def save_iss_response():
+    data = request.form.to_dict()
+    data["issue_responder"] = session["empcode"]
+    res = models.IssueResponse(**data)
+    db.session.add(res)
+    db.session.commit()
+    return jsonify({"status": "ok"})

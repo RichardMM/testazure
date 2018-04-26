@@ -1,5 +1,5 @@
 <div class="tab-pane fade" id="issues" role="tabpanel" aria-labelledby="issues-tab">
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#issueModal" id="issNewButton">Report New issue</button>
+    <button type="button" class="btn btn-danger" id="issNewButton">Report New issue</button>
     <div class="modal fade" id="issueModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -11,21 +11,24 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="issName">Issue title</label>
-                            <input type="text" name="issue_title" class="form-control" id="issName" >
+                            <input type="text" name="issue_title" class="form-control" id="issName" required>
                         </div>
                         <div class="form-group">
                             <label for="issDesc">Issue Description</label>
-                            <textarea class="form-control" name="issue_descr" id="issDesc" rows="5"></textarea>
+                            <textarea class="form-control" name="issue_descr" id="issDesc" rows="5" required></textarea>
                         </div>
                             <div class="form-group">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Responder:</span>
                                         </div>
-                                        <select class="form-control" name="issue_responder" id="">
-                                            <option value=""></option>
+                                        <select class="form-control" name="issue_responder" id="selectResponder">
+                                            <option value="fakeuser" selected>Enter a new Response</option>
+                                            {% for row in users %}
+                                                <option value="{{ row.user_empcode }}">{{ row.user_name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -36,7 +39,8 @@
                         
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-success float-right"  value="Save"/>
+                        <input id="responseSubmitter" type="button" class="btn btn-success float-right"  value="Save Response"/>
+                        <input id="issueSubmitter" type="submit" class="btn btn-success float-right"  value="Save"/>
                     </div>
                 </form>
             </div>
@@ -45,15 +49,15 @@
     <table class="table mt-2">
         <th>S/N</th>
         <th>Issue Date</th>
-        <th>#Responses</th>
+        <th>Issue Title</th>
         <th>Action</th>
         <tbody>
             {% for row in issues %}
             <tr>
                 <td>{{ row.issue_id }}</td>
                 <td>{{ row.issue_date }}</td>
-                <td>{{ row.issue_id }}</td>
-                <td>{{ row.issue_id }}</td>
+                <td>{{ row.issue_title }}</td>
+                <td><input data-issue_id="{{ row.issue_id }}" type="button" class="btn btn-outline-primary ajaxIssue"  value="View"/></td>
             </tr>
             {% endfor %}
         </tbody>
