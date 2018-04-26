@@ -2,10 +2,10 @@
 <!-- this macro is used to get the list elements of all the file names -->
 {% macro listfiles(filelist) %}
     {% for triple in filelist %}
-        {% for filenames in triple[2] %}
+        {% for filename in triple[2] %}
         <li class="list-group-item">
-            {{ filenames }}
-            <a role="button" class="btn btn-outline-info btn-sm float-right" id="viewFileBtn">View</a>
+            {{ filename }}
+            <a role="button" class="btn btn-outline-info btn-sm float-right" id="viewFileBtn" href="{{ url_for("projects.send_files", filename=filename) }}">View</a>
         </li>
         {% endfor %}
     {% endfor %}
