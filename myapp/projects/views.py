@@ -97,7 +97,7 @@ def project_details(id=None):
 
         #check if project has been approved to prevent editing
         readonly=""
-        if project.proj_approval:
+        if project.proj_approval or not session["approval_rights"]:
             readonly="disabled"
 
         #create directory if doesn't exist
