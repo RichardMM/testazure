@@ -1,7 +1,14 @@
 from .views import projects_mod
 from flask import request,session, redirect, url_for, jsonify, flash
-from myapp import models, db, files
+from myapp import models, db, files, mail
+from flask_mail import Message
 
+
+def mailer(receipients, msg, sujet):
+   msg_obj = Message(subject=sujet, recipients = ['richard.macharia@strathmore.edu'])
+   msg_obj.body = msg
+   mail.send(msg_obj)
+   return "Sent"
 
 @projects_mod.route('/postprojdetails', methods=['POST'])
 def upload_projdetails():
@@ -38,9 +45,21 @@ def upload_issues():
 def project_approval(id):
     projects_data = request.form.to_dict()
     projects_data["proj_approval"] = True
-    print(projects_data)
-    projects = models.Projects.query.filter_by(proj_id=id).update(projects_data)
+    models.Projects.query.filter_by(proj_id=id).update(projects_data)
     db.session.commit()
+
+    # get project manager name and send email also send to approvers
+    approver_emails = models.Users.query.with_entities(models.Users.user_email).filter(models.Users.user_approver_rights.is_(True)).all()
+    email_list = [addr for addr in approver_emails]
+    projects_data = models.Projects.query.filter_by(proj_id=id).first()
+    manager_mail = projects_data.manager.query.first().manager_email
+    email_list.append(manager_mail)
+
+    #subject body and receipient list
+    suj = "Project Approval"
+    body = "The project: " + session["project_name"] + " has been approved"
+    send_to = list(set(email_list))
+    mailer(send_to, body, suj)
     return jsonify({"status": "ok"})
 
 @projects_mod.route('/savedisbursements/<int:id>', methods=['POST'])

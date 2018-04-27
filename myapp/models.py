@@ -4,7 +4,7 @@ from flask_login import UserMixin
 
 class Users(UserMixin, db.Model):
     __tablename_ = "users"
-    user_email= db.Column(db.VARCHAR(30), nullable=False)
+    user_email= db.Column(db.VARCHAR(40), nullable=False)
     user_name= db.Column(db.VARCHAR(30), nullable=False)
     user_password = db.Column(db.VARCHAR(200))
     user_empcode = db.Column(db.NVARCHAR(15), nullable=False, primary_key=True)
@@ -50,6 +50,7 @@ class ProjectTypes(db.Model):
 
 class ProjectManagers(db.Model):
     __tablename_ = "project_managers"
+    manager_email = db.Column(db.VARCHAR(40), nullable=False)
     manager_name = db.Column(db.VARCHAR(30), nullable=False)
     manager_code = db.Column(db.NVARCHAR(20), primary_key=True)
     project = db.relationship("Projects", backref="manager", lazy="dynamic")
