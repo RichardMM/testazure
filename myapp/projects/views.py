@@ -1,6 +1,7 @@
 
 from os import walk
 from pathlib import Path
+from mimetypes import guess_type
 from functools import wraps
 from flask import render_template, request,session,Blueprint, redirect, url_for, current_app, send_file, send_from_directory
 from myapp import mail,models, db
@@ -135,4 +136,4 @@ def mailer():
 def send_files(filename):
     print(filename)
     file_directory="." + current_app.config["UPLOADED_FILES_DEST"] + session["project_name"] + "/" 
-    return send_from_directory(directory=file_directory, filename=filename, attachment_filename=filename, as_attachment=True)
+    return send_from_directory(directory=file_directory, mimetype=guess_type(filename)[0], filename=filename, attachment_filename=filename, as_attachment=True)
