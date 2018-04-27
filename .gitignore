@@ -1,3 +1,4 @@
 myapp/projects/__pycache__/*
 myapp/__pycache__/models.cpython-36.pyc
 /error.txt
+migrations/__pycache__/*
