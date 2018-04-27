@@ -131,9 +131,10 @@ def mailer():
    mail.send(msg)
    return "Sent"
 
-@projects_mod.route("/download/<filename>")
+@projects_mod.route("/download/")
 @check_if_logged_in()
-def send_files(filename):
+def send_files():
+    filename = request.args["filename"]
     print(filename)
     file_directory="." + current_app.config["UPLOADED_FILES_DEST"] + session["project_name"] + "/" 
     return send_from_directory(directory=file_directory, mimetype=guess_type(filename)[0], filename=filename, attachment_filename=filename, as_attachment=True)
