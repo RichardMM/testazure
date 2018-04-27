@@ -2,7 +2,7 @@
 from os import walk
 from pathlib import Path
 from functools import wraps
-from flask import render_template, request,session,Blueprint, redirect, url_for, current_app, send_file
+from flask import render_template, request,session,Blueprint, redirect, url_for, current_app, send_file, send_from_directory
 from myapp import mail,models, db
 from flask_mail import Message
 from sqlalchemy.exc import OperationalError
@@ -133,5 +133,6 @@ def mailer():
 @projects_mod.route("/download/<filename>")
 @check_if_logged_in()
 def send_files(filename):
-    file_directory="." + current_app.config["UPLOADED_FILES_DEST"] + session["project_name"] + "/" + filename
-    return send_file(filename_or_fp=file_directory, attachment_filename=filename)
+    print(filename)
+    file_directory="." + current_app.config["UPLOADED_FILES_DEST"] + session["project_name"] + "/" 
+    return send_from_directory(directory=file_directory, filename=filename, attachment_filename=filename, as_attachment=True)
