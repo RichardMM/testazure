@@ -26,8 +26,9 @@ def check_db_connection():
             try:
                 func()
             except OperationalError:
-            return "We could not connect to the database"
-        return decorator  
+                return "We could not connect to the database"
+        return wrapper
+    return decorator
 
 def check_if_logged_in():
     def decorator(func):
