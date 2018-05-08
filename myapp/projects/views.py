@@ -18,13 +18,16 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
 
-def check_db_connection(func):
-    def wrapper():
-        try:
-            func()
-        except OperationalError:
+# try implementing this decorator later
+def check_db_connection():
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                func()
+            except OperationalError:
             return "We could not connect to the database"
-    return wrapper  
+        return decorator  
 
 def check_if_logged_in():
     def decorator(func):
@@ -135,6 +138,6 @@ def mailer():
 @check_if_logged_in()
 def send_files():
     filename = request.args["filename"]
-    print(filename)
+
     file_directory="." + current_app.config["UPLOADED_FILES_DEST"] + session["project_name"] + "/" 
     return send_from_directory(directory=file_directory, mimetype=guess_type(filename)[0], filename=filename, attachment_filename=filename, as_attachment=True)
