@@ -22,7 +22,6 @@ def upload_projdetails():
 
 @projects_mod.route('/uploadfile', methods=['POST'])
 def upload_files():
-    # remember to remove this
     foldername = session["project_name"]
     name = request.form["fileName"] + '.'
     files.save(request.files['projFile'],folder=foldername, name=name)
@@ -57,7 +56,7 @@ def project_approval(id):
 
     #subject body and receipient list
     suj = "Project Approval"
-    body = "The project: " + session["project_name"] + " has been approved"
+    body = r"The project: <strong>" + session["project_name"] + "<strong /> has been approved"
     send_to = list(set(email_list))
     mailer(send_to, body, suj)
     return jsonify({"status": "ok"})
