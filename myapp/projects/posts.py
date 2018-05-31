@@ -112,3 +112,14 @@ def save_iss_response():
     db.session.add(res)
     db.session.commit()
     return jsonify({"status": "ok"})
+
+@projects_mod.route('/requisitiongoods', methods=['POST'])
+def save_materials():
+    req_data = request.form.to_dict()
+    req_data["req_project"] = session["project_id"]
+    req_data["req_requestor"] = session["empcode"]
+    new_details = models.WarehouseReqs(**req_data)
+    db.session.add(new_details)
+    db.session.commit()
+    flash(message="Materials have been requested")
+    return redirect(url_for("projects.projects"))

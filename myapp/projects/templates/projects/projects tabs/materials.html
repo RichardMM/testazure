@@ -1,3 +1,24 @@
 <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
+    <form action="">
+        <div class="form-group">
+          <label for="productSelect">Select Material</label>
+            <select class="form-control" name="req_product" id="productSelect">
+              <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="quantityMat">Enter Quantity needed</label>
+          <input type="number" class="form-control" name="req_qty" id="quantityMat" placeholder="0">
+          <small id="helpIdMat" class="form-text text-muted">No commas should be used</small>
+        </div>
+        <div class="form-group">
+          <label for="dateNeeded">Provide latest date required</label>
+          <input type="date" class="form-control" name="req_deadline" id="dateNeeded" />
+        </div>
+        <div class="form-group">
+          <label for="reasonRequisition">Describe purpose of materials</label>
+          <textarea class="form-control" name="req_description" id="reasonRequisition" rows="5"></textarea>
+        </div>
+    </form>
     
 </div>
