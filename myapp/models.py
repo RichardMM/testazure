@@ -12,7 +12,7 @@ class Users(UserMixin, db.Model):
     disbursements_approval_rights = db.Column(db.Boolean, nullable=False)
 
     responses = db.relationship("IssueResponse", lazy="dynamic", backref="user")
-    requisitions = db.relationship("WarehouseReqs", lazy="dynamic", backref="requestor")
+    
 
 class Projects(db.Model):
     __tablename_ = "Projects"
@@ -110,6 +110,8 @@ class WarehouseUsers(db.Model):
     ####
     receipts = db.relationship("WarehouseReceipts", lazy="dynamic", backref="user")
     products = db.relationship("WarehouseProducts", lazy="dynamic", backref="user")
+    requisitions = db.relationship("WarehouseReqs", lazy="dynamic", backref="requestor")
+    categories = db.relationship("WarehouseCategories", lazy="dynamic", backref="creator")
 
 class WarehouseReceipts(db.Model):
     __tablename_ = "warehouse_receipts"
@@ -124,7 +126,7 @@ class WarehouseReceipts(db.Model):
     receipt_unit_cost = db.Column(db.Numeric, nullable=False)
     receipt_document_no = db.Column(db.DateTime, default=datetime.datetime.today, nullable=False)
 
-class Supplier(db.Model):
+class WarehouseSuppliers(db.Model):
     __tablename_ = "warehouse_suppliers"
     supplier_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     supplier_Creation_date = db.Column(db.DateTime, default=datetime.datetime.today,  nullable=False)
@@ -153,6 +155,21 @@ class WarehouseReqs(db.Model):
     req_qty = db.Column(db.Numeric, nullable=False)
     #req_document_no = db.Column(db.DateTime, default=datetime.datetime.today, nullable=False)
     req_deadline = db.Column(db.DateTime, nullable=False)
+
+	
+class WarehouseCategories(db.Model):
+    __tablename_ = "warehouse_categories"
+    cat_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cat_name = db.Column(db.VARCHAR(40), nullable=False)
+    cat_creator = db.Column(db.NVARCHAR(15), db.ForeignKey(WarehouseUsers.user_empcode))
+
+##### generally needed Tables######
+class Employees(db.Model):
+    __tablename_ = "employees"
+    emp_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    emp_name = db.Column(db.VARCHAR(60), nullable=False)
+    emp_code = db.Column(db.NVARCHAR(15), nullable=False)
+    emp_email = db.Column(db.VARCHAR(60), nullable=False)
 
 
 
