@@ -77,6 +77,7 @@ def project_details(id=None):
     proj_types = models.ProjectTypes.query.all()
     managers = models.ProjectManagers.query.all()
     clients = models.Clients.query.all()
+    products = models.WarehouseProducts.query.all()
 
     if id is None:
         return render_template('projects/newproject.html', curr=currencies, clients=clients,
@@ -91,6 +92,7 @@ def project_details(id=None):
 
         issues_base = models.ProjectIssues.query.filter_by(issue_proj=id)
         issues = issues_base.all()
+    
         
         response_count = models.IssueResponse.query.filter(models.IssueResponse.issue_id.in_\
                          (issues_base.with_entities(models.ProjectIssues.issue_id).all()))
@@ -99,6 +101,8 @@ def project_details(id=None):
 
         session["project_name"] = project.proj_name
         session["project_id"] = project.proj_id
+
+        requisitions = models.WarehouseReqs.query.filter_by(req_project=session["project_id"]).all()
 
         #check if project has been approved to prevent editing
         readonly=""
@@ -111,7 +115,8 @@ def project_details(id=None):
         directory_generator = walk(path)
         return render_template('projects/newproject.html', curr=currencies, 
                                 projects=proj_types, managers=managers, project_detail=project,
-                                id=session["project_id"], clients=clients, issues=issues,
+                                id=session["project_id"], clients=clients, issues=issues,products=products,
+                                requisitions=requisitions,
                                 can_approve=session["approval_rights"], files=directory_generator,
                                 tasks=tasks, disb=disbursements, users=usernames, readonly=readonly)
 

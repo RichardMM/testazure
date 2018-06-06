@@ -1,24 +1,75 @@
 <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
-    <form action="">
-        <div class="form-group">
-          <label for="productSelect">Select Material</label>
-            <select class="form-control" name="req_product" id="productSelect">
-              <option value=""></option>
-            </select>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#materialModal">
+    Request New
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="materialModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modelTitleId">MaterialDetails</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          
         </div>
-        <div class="form-group">
-          <label for="quantityMat">Enter Quantity needed</label>
-          <input type="number" class="form-control" name="req_qty" id="quantityMat" placeholder="0">
-          <small id="helpIdMat" class="form-text text-muted">No commas should be used</small>
-        </div>
-        <div class="form-group">
-          <label for="dateNeeded">Provide latest date required</label>
-          <input type="date" class="form-control" name="req_deadline" id="dateNeeded" />
-        </div>
-        <div class="form-group">
-          <label for="reasonRequisition">Describe purpose of materials</label>
-          <textarea class="form-control" name="req_description" id="reasonRequisition" rows="5"></textarea>
-        </div>
-    </form>
-    
+        <form action="{{ url_for("projects.save_materials") }}" method="POST">
+          <div class="modal-body">
+                <div class="form-group">
+                  <label for="productSelect">Select Material</label>
+                    <select class="form-control" name="req_product" id="productSelect">
+                      {% for product in products %}
+                        <option value="{{ product.product_id }}">{{ product.product_name }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                  <label for="quantityMat">Enter Quantity needed(units autodetected)</label>
+                  <input type="number" class="form-control" name="req_qty" id="quantityMat" placeholder="0">
+                  <small id="helpIdMat" class="form-text text-muted">No commas should be used</small>
+                </div>
+                <div class="form-group">
+                  <label for="dateNeeded">Provide latest date required</label>
+                  <input type="date" class="form-control" name="req_deadline" id="dateNeeded" />
+                </div>
+                <div class="form-group">
+                  <label for="reasonRequisition">Describe purpose of materials</label>
+                  <textarea class="form-control" name="req_description" id="reasonRequisition" rows="5"></textarea>
+                </div>
+                   
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+      </form> 
+      </div>
+    </div>
+  </div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>S/N</th>
+      <th>Date</th>
+      <th>Category</th>
+      <th>Material</th>
+      <th>Quantity</th>
+      <th>Approval</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for req in requisitions %}
+      <tr>
+        <td scope="row">{{ req.req_id }}</td>
+        <td>{{ req.req_date }}</td>
+        <td>{{ req.product.categoryNames.cat_name }}</td>
+        <td>{{ req.req_product }}</td>
+        <td>{{ req.req_qty }}</td>
+        <td>{{ req.req_approval }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 </div>
