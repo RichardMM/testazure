@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f6b6cad07606
-Revises: 84b0f77d8237
-Create Date: 2018-06-07 16:36:25.032061
+Revision ID: ad5d3b455696
+Revises: 
+Create Date: 2018-06-07 18:02:18.121965
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = 'f6b6cad07606'
-down_revision = '84b0f77d8237'
+revision = 'ad5d3b455696'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -34,12 +34,10 @@ def upgrade():
                existing_type=mysql.TINYINT(display_width=1),
                type_=sa.Boolean(),
                existing_nullable=False)
-    #op.add_column('warehouse_receipts', sa.Column('receipt_total_cost', sa.Numeric(), nullable=False))
-    op.alter_column('warehouse_receipts', 'receipt_barcode',
-               existing_type=mysql.DECIMAL(precision=10, scale=0),
-               type_=sa.VARCHAR(40),
+    op.alter_column('warehouse_receipts', 'receipts_warehouse',
+               existing_type=mysql.INTEGER(display_width=11),
                nullable=True)
-    op.drop_column('warehouse_receipts', 'receipt_unit_cost')
+    op.create_foreign_key(None, 'warehouse_receipts', 'warehouse_locations', ['receipts_warehouse'], ['location_id'])
     op.alter_column('warehouse_reqs', 'req_approval',
                existing_type=mysql.TINYINT(display_width=1),
                type_=sa.Boolean(),
@@ -61,12 +59,10 @@ def downgrade():
                existing_type=sa.Boolean(),
                type_=mysql.TINYINT(display_width=1),
                existing_nullable=True)
-    op.add_column('warehouse_receipts', sa.Column('receipt_unit_cost', mysql.DECIMAL(precision=10, scale=0), nullable=False))
-    op.alter_column('warehouse_receipts', 'receipt_barcode',
-               existing_type=sa.VARCHAR(),
-               type_=mysql.DECIMAL(precision=10, scale=0),
+    op.drop_constraint(None, 'warehouse_receipts', type_='foreignkey')
+    op.alter_column('warehouse_receipts', 'receipts_warehouse',
+               existing_type=mysql.INTEGER(display_width=11),
                nullable=False)
-    op.drop_column('warehouse_receipts', 'receipt_total_cost')
     op.alter_column('users', 'user_approver_rights',
                existing_type=sa.Boolean(),
                type_=mysql.TINYINT(display_width=1),
